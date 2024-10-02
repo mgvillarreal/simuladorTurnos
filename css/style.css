@@ -1,3 +1,4 @@
+/* GENERALES */
 *{
     padding: 0;
     margin: 0;
@@ -15,6 +16,7 @@ body p, body label {
     font-weight: 500;
 }
 
+/* HEADER */
 .header-pages{
     background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url(../images/instrumental.jpg);
     height: 15rem;
@@ -61,12 +63,7 @@ body p, body label {
     transform: translate(-50%, -50%);
 }
 
-.main-pages {
-    min-height: calc(100vh - 320px);
-    text-align: center;
-    margin-top: 2rem;
-}
-
+/* FOOTER */
 .footer{
     background-color: rgba(56, 182, 255, 0.5529411765);
     padding: 1rem 2rem;
@@ -87,4 +84,47 @@ body p, body label {
 .logo-footer{
     width: 80px;
     height: 45px;
+}
+
+/* MAIN */
+.contenedor{
+    max-width: 70%; 
+    margin: 50px auto;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    background-color: #fff;
+}
+
+.titulo{
+    color: #1d2c7b;
+    font-weight: 700;
+    /*text-shadow: 1px 1px 2px gray;*/
+    font-size: 2rem;
+}
+
+.card{
+    height: 100%;
+    border: none;
+    background-color: #91d4fc40;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 1s;
+    padding-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.card:hover{
+    border: none;
+    background-color: #38b6ff37;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: scale(1.02, 1.02);
+    cursor: pointer;
+}
+
+.icono{
+    width: 90px;
+}
+
+#containerFormulario{
+    display: none;
 }

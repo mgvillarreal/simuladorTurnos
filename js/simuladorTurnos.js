@@ -1,122 +1,80 @@
-let especialidad = "";
-let especialidadSeleccionada = false;
-let nombreEspecialidad = "";
-let fechasDisponibles = [];
-let fechaTurno = "";
-let fechaSeleccionada = false;
-let respuestaConfirmar = false;
+let especialidadSeleccionada = null;
+let fechaSeleccionada = null;
+let horaSeleccionada = null;
+let idBloque = null;
 
-const fechasGeneral = ["16-09-2024 9hs", "18-09-2024 9hs", "20-09-2024 9hs"];
-const fechasEstetica = ["17-09-2024 15hs", "19-09-2024 15hs"];
-const fechasImplantes = ["16-09-2024 15hs", "18-09-2024 15hs"];
-const fechasCirugia = ["17-09-2024 9hs", "19-09-2024 9hs", "21-09-2024 17hs"];
-const fechasOrtodoncia = ["18-09-2024 17hs", "20-09-2024 15hs"];
-const fechasEndodoncia = ["16-09-2024 17hs", "19-09-2024 17hs"];
-const fechasPeriodoncia = ["17-09-2024 17hs", "21-09-2024 9hs"];
-const fechasPediatria = ["20-09-2024 17hs", "21-09-2024 15hs"];
+/*const turnosDisponibles = [
+    {especialidad: "Odontología General", fechas: ["16-09-2024 9hs", "18-09-2024 9hs", "20-09-2024 9hs"]},
+    {especialidad: "Odontología Estética", fechas: ["17-09-2024 15hs", "19-09-2024 15hs"]},
+    {especialidad: "Implantes Dentales", fechas: ["16-09-2024 15hs", "18-09-2024 15hs"]},
+    {especialidad: "Cirugía Oral", fechas: ["17-09-2024 9hs", "19-09-2024 9hs", "21-09-2024 17hs"]},
+    {especialidad: "Ortodoncia", fechas: ["18-09-2024 17hs", "20-09-2024 15hs"]},
+    {especialidad: "Endodoncia", fechas: ["16-09-2024 17hs", "19-09-2024 17hs"]},
+    {especialidad: "Periodoncia", fechas: ["17-09-2024 17hs", "21-09-2024 9hs"]},
+    {especialidad: "Odontopediatría", fechas: ["20-09-2024 17hs", "21-09-2024 15hs"]},
+]*/
 
-function solicitarEspecialidad(){
-    do{
-        especialidad = Number(prompt("Seleccione una especialidad:\n 1 = Odontología General\n 2 = Odontología Estética\n 3 = Implantes Dentales\n 4 = Cirugía Oral\n 5 = Ortodoncia\n 6 = Endodoncia\n 7 = Periodoncia\n 8 = Odontopediatría"));
-
-        if(especialidad === 0){ //Detiene la ejecución si usuario clickea botón Cancelar
-            break;
-        }
-        else{
-            validarSeleccionEspecialidad(especialidad); 
-        }
-
-    }while(!especialidadSeleccionada);
+/* -- FUNCIONES -- */
+function seleccionarEspecialidad(especialidad) { //Guarda la especialidad seleccionada en localStorage
+    localStorage.setItem('especialidadSeleccionada', especialidad);
 }
 
-function validarSeleccionEspecialidad(especialidad){
-    if(especialidad < 1 || especialidad > 8){ //Valida que el número ingresado esté en el rango de las opciones
-        alert("Ha ingresado una opción inválida. Intente nuevamente.");
-    }
-    else{
-        especialidadSeleccionada = true;
-        asignarDatosEspecialidad(especialidad);
-    }
+function mostrarConfirmacion(){ //Toma los datos del localStorage para mostrar mensaje
+    const mensaje = document.getElementById('mensaje');
+    mensaje.classList.remove('d-none');
+
+    const datosTurno = JSON.parse(localStorage.getItem('turno'));
+    const especialidad = localStorage.getItem('especialidadSeleccionada');
+
+    mensaje.innerHTML = `Se ha confirmado un turno para ${datosTurno.nombre} ${datosTurno.apellido} 
+    en la especialidad de ${especialidad} para el día ${datosTurno.fecha} a las ${datosTurno.hora}.`;
+
+    mensaje.classList.remove('d-none');
+    
+    document.getElementById('turnoForm').reset();
 }
 
-function asignarDatosEspecialidad(especialidad){
-    switch(especialidad){ //Asigna las fechas disponibles y nombre de especialidad de acuerdo a la opción seleccionada
-        case 1:
-            nombreEspecialidad = "Odontología General";
-            fechasDisponibles = fechasGeneral;
-            break;
-        case 2:
-            nombreEspecialidad = "Odontología Estética";
-            fechasDisponibles = fechasEstetica;
-            break;
-        case 3:
-            nombreEspecialidad = "Implantes Dentales";
-            fechasDisponibles = fechasImplantes;
-            break;
-        case 4:
-            nombreEspecialidad = "Cirguía Oral";
-            fechasDisponibles = fechasCirugia;
-            break;
-        case 5:
-            nombreEspecialidad = "Ortodoncia";
-            fechasDisponibles = fechasOrtodoncia;
-            break;
-        case 6:
-            nombreEspecialidad = "Endodoncia";
-            fechasDisponibles = fechasEndodoncia;
-            break;
-        case 7:
-            nombreEspecialidad = "Periodoncia";
-            fechasDisponibles = fechasPeriodoncia;
-            break;
-        default:
-            nombreEspecialidad = "Odontopediatría";
-            fechasDisponibles = fechasPediatria;
-            break;
-    }
-    solicitarFecha();
+function ocultarBloque(idBloque){
+    document.getElementById(idBloque).style.display = 'none';
 }
 
-function solicitarFecha(){    
-    do{
-        let mensaje = "Seleccione una fecha disponible:"
-        for(let i=0; i<fechasDisponibles.length; i++){
-            mensaje += `\n ${i+1} = ${fechasDisponibles[i]}`;
-        }
-        fechaTurno = Number(prompt(mensaje));
-
-        if(fechaTurno === 0){ //Detiene la ejecución si usuario clickea botón Cancelar
-            especialidad = 0; //Resetea la opción de especialidad seleccionada antes
-            break;
-        }
-        else{
-            validarSeleccionFecha(fechaTurno); 
-        }
-        
-    }while(!fechaSeleccionada);
+function mostrarBloque(idBloque){
+    document.getElementById(idBloque).style.display = 'block';
 }
 
-function validarSeleccionFecha(fechaTurno){
-    if(fechaTurno < 1 || fechaTurno > fechasDisponibles.length){ //Valida que el número ingresado esté en el rango de las opciones
-        alert("Ha ingresado una opción inválida. Intente nuevamente.");
-    }
-    else{
-        fechaSeleccionada = true;
-        confirmarTurno();
-    }
-}
+/* -- EVENTOS -- */
+/* Selección de especialidades */
+const cards = document.querySelectorAll('.card');
+cards.forEach((card) => {
+    card.addEventListener('click', () => {
+        const especialidadSeleccionada = card.innerText;
+        seleccionarEspecialidad(especialidadSeleccionada);
+        ocultarBloque('containerEspecialidades');
+        mostrarBloque('containerFormulario');
+    });
+});
 
-function confirmarTurno(){
-    respuestaConfirmar = confirm(`Está pidiendo un turno para la especialidad de ${nombreEspecialidad} para el ${fechasDisponibles[fechaTurno-1]} \n¿Confirmar?`);
+/* Envío del formulario */
+document.getElementById('turnoForm').addEventListener('submit', function (event) {
+    event.preventDefault();
 
-    if(respuestaConfirmar){
-        alert("Su turno se ha agendado correctamente.");
-    }
-    else{
-        alert("Solicite un turno nuevamente.");
-    }
-}
+    const nombre = document.getElementById('nombre').value;
+    const apellido = document.getElementById('apellido').value;
+    const email = document.getElementById('email').value;
+    const fecha = document.getElementById('fecha').value;
+    const hora = document.getElementById('hora').value;
 
-/* EJECUTA SIMULADOR */
-solicitarEspecialidad();
+    const turno = {
+        nombre: nombre,
+        apellido: apellido,
+        email: email,
+        fecha: fecha,
+        hora: hora
+    };
 
+    localStorage.setItem('turno', JSON.stringify(turno));
+
+    mostrarConfirmacion();
+    
+    document.getElementById('turnoForm').reset();
+});
