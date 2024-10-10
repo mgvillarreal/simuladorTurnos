@@ -248,13 +248,14 @@ body p, body label {
 /* MEDIA QUERIES */
 @media (max-width: 768px){
     .calendario-grid {
-      grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+      grid-template-columns: repeat(7, 1fr);
     }
   }
   
   @media (max-width: 576px){
     .calendario-grid {
-      grid-template-columns: repeat(auto-fit, minmax(20px, 1fr));
+        grid-template-columns: repeat(7, 1fr);
+        gap: 2px;
     }
 
     .calendario-grid div{
