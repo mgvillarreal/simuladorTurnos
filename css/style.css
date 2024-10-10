@@ -254,7 +254,7 @@ body p, body label {
   
   @media (max-width: 576px){
     .calendario-grid {
-      grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(20px, 1fr));
     }
 
     .calendario-grid div{
