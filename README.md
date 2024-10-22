@@ -19,9 +19,12 @@ A powerful library for working with dates and times, allowing for easy manipulat
 SweetAlert2: v11.x
 Provides customizable alert dialogs for better user experience when confirming, canceling or notifying users about their appointments.
 
-### How to Download and View the Project
+### Installation
 1. Clone this repository to your local machine: `https://github.com/mgvillarreal/simuladorTurnos`
-2. Open the index.html file in a web browser.
+2. Open the `index.html` usign Live Server file in a web browser.
+
+### How to View the Project
+You can visit the deployed repository: `https://mgvillarreal.github.io/simuladorTurnos/`
 
 ### How to Contribute
 Contributions are not currently being accepted for this project.
