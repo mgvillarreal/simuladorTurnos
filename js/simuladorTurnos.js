@@ -9,8 +9,6 @@ let fechasDisponibles = [];
 let horasDisponibles = [];
 const calendario = document.getElementById('calendario');
 const mesActualDisplay = document.getElementById('mes-actual');
-/*const fechasDisponibles = ["2024-10-10", "2024-10-12", "2024-10-15", "2024-11-05"];
-const horasDisponibles = [9, 10, 11, 12, 19, 8];*/
 const { DateTime } = luxon;
 
 /* -- FUNCIONES -- */
@@ -83,10 +81,7 @@ async function buscarTurnosDisponibles(){
     }
 }
 
-function seleccionarTurno(especialidadSeleccionada){
-    console.log("entré a la funcion");
-    console.log("Especialidad: ", especialidadSeleccionada);
-    
+function seleccionarTurno(especialidadSeleccionada){   
     try{
         for(let i=0; i<turnosDisponibles.length; i++){
             if(turnosDisponibles[i].especialidad == especialidadSeleccionada){
@@ -96,8 +91,9 @@ function seleccionarTurno(especialidadSeleccionada){
                 horasDisponibles = turnosDisponibles[i].horas;
             }
         }
-        console.log("Fechas dispo: ", fechasDisponibles)
-        console.log("Horas dispo: ", horasDisponibles)
+        
+        cargarCalendario();
+        cargarHorarios();
     }
     catch (error) {
         console.warn("Error al seleccionar los turnos disponibles.");
@@ -201,18 +197,25 @@ function cargarHorarios(){
 /* Selección de especialidades */
 const cards = document.querySelectorAll('.card');
 cards.forEach((card) => {
-    card.addEventListener('click', () => {
+    card.addEventListener('click', async () => {
+        const loaderOverlay = document.getElementById('loader-overlay');
+        loaderOverlay.style.display = 'flex';  
+
+        await buscarTurnosDisponibles();
         const especialidadSeleccionada = card.innerText;
         seleccionarTurno(especialidadSeleccionada);
         seleccionarEspecialidad(especialidadSeleccionada);
-
+ 
         setTimeout(()=>{
             ocultarBloque('containerEspecialidades');
             mostrarBloque('containerTurnos');
             ocultarBloque('containerEspecialidades');
+
+            loaderOverlay.style.display = 'none';
         }, 1500);
     });
 });
+
 
 /* Selección de turno */
 document.getElementById('boton-guardar').addEventListener('click', () =>{
@@ -267,12 +270,10 @@ document.getElementById('turnoForm').addEventListener('submit', function (event)
 
     document.getElementById('turnoForm').reset();
     mostrarBloque('containerEspecialidades');
+    mostrarTurnoGuardado();
 });
   
-/* CARGA CALENDARIO Y HORARIO */
+/* CARGA TURNO GUARDADO */
 window.onload = () =>{
-    cargarCalendario();
-    cargarHorarios();
     mostrarTurnoGuardado();
-    buscarTurnosDisponibles();
 };
