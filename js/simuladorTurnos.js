@@ -19,7 +19,7 @@ function seleccionarEspecialidad(especialidad) { //Guarda la especialidad selecc
 }
 
 function traerDatosDeLocalStorage(){
-    if(window.localStorage.length !== 0){
+    if(localStorage.getItem('turno')){
         const datosTurno = JSON.parse(localStorage.getItem('turno'));
         const especialidad = localStorage.getItem('especialidadSeleccionada');
         const fecha = localStorage.getItem('fechaTurno');
